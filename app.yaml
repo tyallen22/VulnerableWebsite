@@ -1,0 +1,45 @@
+# runtime: python
+# env: flex
+
+# runtime_config:
+#     python_version: 3
+    
+# manual_scaling:
+#   instances: 1
+# resources:
+#   cpu: 1
+#   memory_gb: 0.5
+#   disk_size_gb: 10
+
+# entrypoint: gunicorn -w 17 run:app
+
+# runtime: python37
+
+# # Remember - storing secrets in plaintext is potentially unsafe. Consider using
+# # something like https://cloud.google.com/kms/ to help keep secrets secret.
+# # env_variables:
+# #   CLOUD_SQL_CONNECTION_NAME: radiant-moon-270008:us-central1:bajandabase2
+# #   DB_USER: postgres
+# #   DB_PASS: choco
+# #   DB_NAME: testing
+
+# #runtime: custom
+# env: flex
+# automatic_scaling:
+#   min_num_instances: 1
+# beta_settings:
+#     cloud_sql_instances: radiant-moon-270008:us-central1:bajandabase2
+
+# env_variables:
+#   SQLALCHEMY_DATABASE_URI: >-
+#     psycopg2.connect(database="testing", user = "postgres", password = "choco", host = "/cloudsql/cloud_sql_instances")
+
+# entrypoint: psycopg2.connect(database="testing", user = "postgres", password = "choco", host = "/cloudsql/cloud_sql_instances")
+
+runtime: python37
+
+env_variables:
+  CLOUD_SQL_INSTANCE: "radiant-moon-270008:us-central1:bajandabase2"
+  CLOUD_SQL_USERNAME: postgres
+  CLOUD_SQL_PASSWORD: choco
+  CLOUD_SQL_DATABASE: testing

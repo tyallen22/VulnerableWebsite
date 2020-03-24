@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<style>
+  table, th, td {
+      padding: 10px;
+      border: 1px solid black;
+      border-collapse: collapse;
+      }
+  td {
+    text-align: right;
+  }
+</style>
+
+
+  <h1>{% block title %}Transfer Funds{% endblock %}</h1>
+  <h1 style="text-align:center;">Hello User: {{g.user[1]}}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="account">Account Name</label>
+    <input name="account" id="account" value="{{ request.form['account'] }}" required>
+    <label for="amount">Transfer Amount</label>
+    <input name="amount" id="amount" value="{{ request.form['amount'] }}" required>
+    <input type="hidden" name="token" id="token" value="{{ request.form['token'] }}" />
+    <input type="submit" value="Send">
+  </form>
+
+  <script>
+    elem = document.getElementById('token');
+    elem.setAttribute('value', 'dev');
+  </script>
+
+
+  {% if results %}
+      <table>
+        <tr>
+          <th>User ID</th>
+          <th colspan="2">Username</th>
+          <th colspan="4">Current Balance</th>
+        </tr>
+
+        {% for result in results %}
+
+            <tr>
+              <td>{{ result[0] }}</td>
+              <td colspan="2">{{ result[1] }}</td>
+              <td colspan="4">{{ result[2] }}</td>
+            </tr>
+
+        {% endfor %}
+      </table>
+    {% else %}
+        <p>No account by that name or transfer too large. Please try again.</p>
+    {% endif %}
+{% endblock %}
