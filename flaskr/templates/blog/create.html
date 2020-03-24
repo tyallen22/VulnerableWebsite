@@ -14,10 +14,15 @@
 
 
   <h1>{% block title %}Transfer Funds{% endblock %}</h1>
-  <h1 style="text-align:center;">Hello User: {{g.user[1]}}</h1>
+  <a class="action" href="{{ url_for('blog.index') }}" style="text-align:right;">Account Settings</a>
+  <a class="action" href="{{ url_for('blog.update') }}" style="text-align:right;">Search Transactions</a>
 {% endblock %}
 
 {% block content %}
+<div>
+  <p style="text-align:right;">Current User: {{session.username}}</p>
+</div>
+
   <form method="post">
     <label for="account">Account Name</label>
     <input name="account" id="account" value="{{ request.form['account'] }}" required>

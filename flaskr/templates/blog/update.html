@@ -12,16 +12,16 @@
   }
 </style>
 
-  <h1>{% block title %}{% endblock %}</h1>
-
-    <div style="width:100%;">
-      <h1 style="text-align:center;">Hello User: {{g.user[1]}}</h1>
-      <a class="action" href="{{ url_for('blog.create') }}" style="text-align:right;">Transfer Funds</a>
-    </div>
-
+  <h1>{% block title %}Search Transactions{% endblock %}</h1>
+  <a class="action"  href="{{ url_for('blog.index') }}" style="text-align:right;">Account Settings</a>
+  <a class="action"  href="{{ url_for('blog.create') }}" style="text-align:right;">Transfer Funds</a>
 {% endblock %}
 
 {% block content %}
+
+<div>
+  <p style="text-align:right;">Current User: {{session.username}}</p>
+</div>
 
     <h3>Search for a transaction date (mmddyy):</h3>
     {% from "_formhelpers.html" import render_field %}

@@ -15,16 +15,16 @@ bp = Blueprint('blog', __name__)
 def create():
     secret = 'dev'
     if request.method == 'POST':
+
         key = request.form['token']
-        print(key)
+
         if key == 'dev':
             results = []
             total = request.form['amount']
             account = request.form['account']
-            print(account)
             db = get_db()
             cursor = db.cursor()
-            name = g.user[1]
+            name = session.get('username')
             print(name)
             error = None
 
@@ -57,7 +57,7 @@ def create():
 
                         return render_template('blog/create.html', results=results)
 
-        return render_template('blog/create.html')
+    return render_template('blog/create.html')
 
 
 @bp.route('/update', methods=('GET', 'POST'))
@@ -69,10 +69,12 @@ def update():
 
 def search_results(search):
     results = []
+    user_id = session.get('user_id')
     search_string = search.data['search']
     db = get_db()
     cursor = db.cursor()
-    name = g.user[1]
+    name = session.get('username')
+    print(name)
     query = "SELECT * FROM transactions WHERE date = '" + search_string + "' AND username = '" + name + "'"
     print(query)
     cursor.execute(query)
@@ -103,7 +105,7 @@ def index():
             )
 
             db.commit()
-            return redirect(url_for('blog.index'), user_id=user_id)
+            return redirect(url_for('blog.index'), user_id=user_id, key=key)
 
     elif request.method == 'GET':
         usr_id = request.args.get('user_id')
@@ -114,7 +116,8 @@ def index():
         )
 
         res = make_response(render_template('blog/index.html'))
-        res.set_cookie('username', g.user[1], max_age=5)
-        res.set_cookie('password', g.user[2], max_age=5)
+        if g.user is not None:
+            res.set_cookie('username', g.user[1], max_age=5)
+            res.set_cookie('password', g.user[2], max_age=5)
 
         return res

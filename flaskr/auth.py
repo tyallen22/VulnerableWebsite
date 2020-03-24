@@ -76,6 +76,7 @@ def login():
             userid = cursor.fetchone()
             user_id = str(userid[0])
             session['user_id'] = user_id
+            session["username"] = username
 
             # session['user_id'] = user['id']
             return redirect(url_for('blog.index', user_id=user_id))
@@ -93,27 +94,10 @@ def load_logged_in_user():
     if user_id is None:
         g.user = None
     else:
-        # userid = str(user_id[0])
-        # print("user id is " + userid)
         cursor.execute(
             "SELECT * FROM users WHERE CAST(id as CHAR) LIKE %s", [user_id]
         )
         g.user = cursor.fetchone()
-
-        # print("user logged in is " + str(g.user[1]))
-        # return res
-
-
-@bp.route('/hello', methods=('GET', 'POST'))
-def hello():
-    if request.method == 'POST':
-        username = username
-
-        return render_template('auth/helloWorld.html',username=username)
-
-        flash(error)
-
-    return render_template('auth/helloWorld.html')
 
 @bp.route('/logout')
 def logout():
